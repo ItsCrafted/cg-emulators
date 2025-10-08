@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>CG13 Windows 98 Emulator</title>
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            background: #000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        #screen_container {
+            width: 1024px;
+            height: 768px;
+            border: 4px solid #00ffe5;
+            box-shadow: 0 0 40px #00ffe5;
+        }
+    </style>
+</head>
+<body>
+    <div id="screen_container"></div>
+
+    <script type="module">
+        import V86 from "./libv86.mjs";
+
+        // Make sure the DOM is fully loaded
+        window.addEventListener("DOMContentLoaded", () => {
+            const emulator = new V86({
+                wasm_path: "v86.wasm",
+                memory_size: 64*1024*1024,
+                vga_memory_size: 8*1024*1024,
+                screen_container: document.getElementById("screen_container"), 
+                bios: { url: "bios/seabios.bin" },
+                vga_bios: { url: "bios/vgabios.bin" },
+                hda: { url: "images/win98.img" },
+                autostart: true
+            });
+        });
+    </script>
+</body>
+</html>
